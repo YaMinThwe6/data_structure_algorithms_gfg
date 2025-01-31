@@ -2,43 +2,28 @@
 // Separate the array into sets of gcd of d and length of array.
 // Shuffle the elements of the pieces one by one.
 
-let shiftTheValue = (arr, d) => {
+function findGcd(a, b) {
+    return b === 0 ? a : findGcd (b, a % b);
+}
+
+let shiftArrays = (arr, d) => {
     let n = arr.length;
-
     d = d % n;
-    function gcd(a, b) {
-        return b === 0 ? a : gcd(b, a % b);
-    }
-    let gcdValue = gcd(n, d);
-
-    let i = 0;
-    
-    while (i < gcdValue) {
-        let firstElement = arr[i];
-
-        let currentElement = i, nextElement; 
-
+    let cycles = findGcd(d, n);
+    for (let i = 0; i < cycles; i++) {
+        let firstElement = arr[i], currentElement = i, nextElement;
         while (true) {
             nextElement = (currentElement + d) % n;
-            
-            if (nextElement === i) {
+            if (nextElement === 0) {
                 break;
             }
 
             arr[currentElement] = arr[nextElement];
             currentElement = nextElement;
         }
-
         arr[currentElement] = firstElement;
-
-        i++;
     }
-
-    return arr;
+    console.log(arr);
 }
 
-let arr = [1, 2, 3, 4, 5, 6, 7], d = 3;
-
-let shiftedArray = shiftTheValue(arr, d);
-
-console.log(shiftedArray);
+shiftArray([1,2,3,5,6,4,6], 2);
